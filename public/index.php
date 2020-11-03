@@ -8,27 +8,16 @@ header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
+// Get url
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode( '/', $uri );
 
-// all of our endpoints start with /person
-// everything else results in a 404 Not Found
-if ($uri[1] !== 'car') {
-    header("HTTP/1.1 404 Not Found");
-    exit();
-}
+$request_var = [
+    'method' => $_SERVER["REQUEST_METHOD"],
+    'path_params' => $uri,
+    'query_params' => $_SERVER["QUERY_STRING"] ?? null,
+    'db' => $dbConnection
+];
 
-// the car id is, of course, optional and must be a number:
-$carId = null;
-if (isset($uri[2])) {
-    $carId = (int) $uri[2];
-}
-
-
-$requestMethod = $_SERVER["REQUEST_METHOD"];
-
-
-
-// pass the request method and car ID to the PersonController and process the HTTP request:
-$controller = new CarController($dbConnection, $requestMethod, $carId);
+$controller = new CarController($request_var);
 $controller->processRequest();

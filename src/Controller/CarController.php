@@ -7,25 +7,32 @@ class CarController {
 
     private $db;
     private $requestMethod;
-    private $userId;
+    private $pathParams;
+    private $queryParams;
+    private $carId;
 
     private $carGateway;
 
-    public function __construct($db, $requestMethod, $userId)
+    public function __construct(array $request_var)
     {
-        $this->db = $db;
-        $this->requestMethod = $requestMethod;
-        $this->userId = $userId;
+        $this->db = $request_var['db'];
+        $this->requestMethod = $request_var['method'];
+        $this->pathParams = $request_var['path_params'];
+        $this->queryParams = $request_var['query_params'];
+        $this->carId = null;
 
-        $this->carGateway = new CarGateway($db);
+        $this->carGateway = new CarGateway($this->db);
     }
 
     public function processRequest()
     {
+
+        $this->validateUriParams();
+
         switch ($this->requestMethod) {
             case 'GET':
-                if ($this->userId) {
-                    $response = $this->getCar($this->userId);
+                if ($this->carId) {
+                    $response = $this->getCar($this->carId);
                 } else {
                     $response = $this->getAllCars();
                 };
@@ -34,26 +41,38 @@ class CarController {
                 $response = $this->createCarFromRequest();
                 break;
             case 'PUT':
-                $response = $this->updateCarFromRequest($this->userId);
+                $response = $this->updateCarFromRequest($this->carId);
                 break;
             case 'DELETE':
-                $response = $this->deleteCar($this->userId);
+                $response = $this->deleteCar($this->carId);
                 break;
             default:
                 $response = $this->notFoundResponse();
                 break;
         }
+
         header($response['status_code_header']);
         if ($response['body']) {
-            echo $response['body'];
+            echo $response['body']; 
         }
     }
 
     private function getAllCars()
     {
-        $result = $this->carGateway->findAll();
+        $result = [];
+        if ($this->queryParams) {
+            $result = $this->carGateway->findCarByQuery($this->queryParams);
+
+            $response['status_code_header'] = 'HTTP/1.1 200 OK';
+            $response['body'] = json_encode($result);
+    
+            return $response;
+        }
+
+        $result = $this->carGateway->findAllCars();
         $response['status_code_header'] = 'HTTP/1.1 200 OK';
         $response['body'] = json_encode($result);
+
         return $response;
     }
 
@@ -131,8 +150,25 @@ class CarController {
 
     private function notFoundResponse()
     {
-        $response['status_code_header'] = 'HTTP/1.1 404 Not Found';
+        $response['status_code_header'] = 'HTTP/1.1 404';
         $response['body'] = null;
         return $response;
+    }
+
+    private function validateUriParams()
+    {        
+        // Validate path
+        if ($this->pathParams[1] !== 'car') {
+            header("HTTP/1.1 404");
+            exit();
+        }
+
+        // Validate car id
+        if (isset($this->pathParams[2]) && !is_numeric($this->pathParams[2])) {
+            header("HTTP/1.1 400");
+            exit();
+        } else {
+            $this->carId = $this->pathParams[2]; 
+        }        
     }
 }

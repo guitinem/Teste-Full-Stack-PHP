@@ -10,7 +10,7 @@ class CarGateway {
         $this->db = $db;
     }
 
-    public function findAll()
+    public function findAllCars()
     {
         $statement = "
             SELECT 
@@ -28,6 +28,41 @@ class CarGateway {
         }
     }
 
+    public function findCarByQuery(string $queryParams)
+    {
+        $query = "
+            SELECT *
+            FROM car
+            where 
+                veiculo = :veiculo or
+                marca = :marca or
+                ano = :ano or
+                vendido = :vendido
+            ;
+        ";
+
+        parse_str($queryParams, $output);
+
+        $data = [
+            'veiculo' => $output['veiculo'] ?? null,
+            'marca' => $output['marca'] ?? null,
+            'ano' => $output['ano'] ?? null,
+            'vendido' => $output['vendido'] ?? null
+        ];
+
+
+        try {
+            $statement = $this->db->prepare($query);
+            $statement->execute($data);
+            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+            return $result;
+        } catch (\PDOException $e) {
+            exit($e->getMessage());
+        }
+    }
+
+
+
     public function find($id)
     {
         $statement = "
@@ -40,7 +75,7 @@ class CarGateway {
 
         try {
             $statement = $this->db->prepare($statement);
-            $statement->execute(array($id));
+            $statement->execute([intval($id)]);
             $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
             return $result;
         } catch (\PDOException $e) {
@@ -59,13 +94,13 @@ class CarGateway {
 
         try {
             $statement = $this->db->prepare($statement);
-            $statement->execute(array(
+            $statement->execute([
                 'veiculo' => $input['veiculo'],
                 'marca'  => $input['marca'],
                 'ano' => $input['ano'],
                 'descricao' => $input['descricao'],
                 'vendido' => $input['vendido'] ?? false,
-            ));
+            ]);
             return $statement->rowCount();
         } catch (\PDOException $e) {
             exit($e->getMessage());
@@ -87,14 +122,14 @@ class CarGateway {
 
         try {
             $statement = $this->db->prepare($statement);
-            $statement->execute(array(
+            $statement->execute([
                 'id' => (int) $id,
                 'veiculo' => $input['veiculo'],
                 'marca'  => $input['marca'],
                 'ano' => $input['ano'],
                 'descricao' => $input['descricao'] ?? null,
                 'vendido' => $input['vendido'],
-            ));
+            ]);
             return $statement->rowCount();
         } catch (\PDOException $e) {
             exit($e->getMessage());
@@ -110,7 +145,7 @@ class CarGateway {
 
         try {
             $statement = $this->db->prepare($statement);
-            $statement->execute(array('id' => $id));
+            $statement->execute(['id' => $id]);
             return $statement->rowCount();
         } catch (\PDOException $e) {
             exit($e->getMessage());
