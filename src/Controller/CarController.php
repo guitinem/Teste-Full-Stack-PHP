@@ -1,7 +1,7 @@
 <?php
 namespace Src\Controller;
 
-use Src\TableGateways\CarGateway;
+use Src\TableGateways\CarRepository;
 
 class CarController {
 
@@ -21,7 +21,7 @@ class CarController {
         $this->queryParams = $request_var['query_params'];
         $this->carId = null;
 
-        $this->carGateway = new CarGateway($this->db);
+        $this->carGateway = new CarRepository($this->db);
     }
 
     public function processRequest()

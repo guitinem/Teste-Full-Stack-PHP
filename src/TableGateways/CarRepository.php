@@ -1,7 +1,7 @@
 <?php
 namespace Src\TableGateways;
 
-class CarGateway {
+class CarRepository {
 
     private $db = null;
 
