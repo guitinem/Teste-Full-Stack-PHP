@@ -90,12 +90,12 @@ class CarController {
     private function createCarFromRequest()
     {
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);
-        if (! $this->validateCar($input)) {
+        if (! $this->validateCarValues($input)) {
             return $this->unprocessableEntityResponse();
         }
-        $this->carGateway->insert($input);
+        $result = $this->carGateway->insert($input);
         $response['status_code_header'] = 'HTTP/1.1 201 Created';
-        $response['body'] = null;
+        $response['body'] = json_encode($result);
 
         return $response;
     }
@@ -106,13 +106,15 @@ class CarController {
         if (! $result) {
             return $this->notFoundResponse();
         }
+
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);
-        if (! $this->validateCar($input)) {
+        if (! $this->validateCarValues($input)) {
             return $this->unprocessableEntityResponse();
         }
-        $this->carGateway->update($id, $input);
+
+        $result = $this->carGateway->update($id, $input);
         $response['status_code_header'] = 'HTTP/1.1 200 OK';
-        $response['body'] = null;
+        $response['body'] = json_encode($result);
         return $response;
     }
 
@@ -128,14 +130,25 @@ class CarController {
         return $response;
     }
 
-    private function validateCar($input)
+    private function validateCarValues($input)
     {
-        if (! isset($input['veiculo'])) {
+
+        $inputKeyDifference = array_diff_key($input,[ 
+            'veiculo'   => '', 
+            'marca'     => '', 
+            'ano'       => '', 
+            'descricao' => '', 
+            'vendido'   => '' ]
+        );
+    
+        if (count($inputKeyDifference) != 0) {
             return false;
         }
-        if (! isset($input['ano'])) {
+
+        if (!\is_numeric($input['ano'])) {
             return false;
         }
+
         return true;
     }
 

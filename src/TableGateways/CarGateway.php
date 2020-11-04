@@ -101,13 +101,19 @@ class CarGateway {
                 'descricao' => $input['descricao'],
                 'vendido' => $input['vendido'] ?? false,
             ]);
-            return $statement->rowCount();
+
+
+            $statement = $this->db->query('SELECT * FROM car ORDER BY id DESC LIMIT 1');
+
+            $lastRecord = $statement->fetch(\PDO::FETCH_ASSOC);
+        
+            return $lastRecord;
         } catch (\PDOException $e) {
             exit($e->getMessage());
         }    
     }
 
-    public function update($id, Array $input)
+    public function update($id, array $input)
     {
         $statement = "
             UPDATE car
@@ -115,7 +121,7 @@ class CarGateway {
                 veiculo = :veiculo,
                 marca  = :marca,
                 ano = :ano,
-                descricao = :descricao
+                descricao = :descricao,
                 vendido = :vendido
             WHERE id = :id;
         ";
@@ -123,14 +129,19 @@ class CarGateway {
         try {
             $statement = $this->db->prepare($statement);
             $statement->execute([
-                'id' => (int) $id,
+                'id' => $id,
                 'veiculo' => $input['veiculo'],
                 'marca'  => $input['marca'],
                 'ano' => $input['ano'],
-                'descricao' => $input['descricao'] ?? null,
+                'descricao' => $input['descricao'],
                 'vendido' => $input['vendido'],
             ]);
-            return $statement->rowCount();
+
+
+            $statement = $this->db->query('SELECT * FROM car WHERE id = ' . $id);
+            $updatedRecord = $statement->fetch(\PDO::FETCH_ASSOC);
+
+            return $updatedRecord;
         } catch (\PDOException $e) {
             exit($e->getMessage());
         }    
