@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/client.css">
+    <title>Veiculos</title>
+</head>
+<body>
+    <header>
+            <div class="header_title">
+                <span>Tabela de</span>
+                <div class="header_icon"> 
+                    <span>Veiculos</span>
+                    <img src="assets/car (1).svg" alt="truck">
+                </div>
+            </div>
+            <div class="header_buttons">
+                <button id="searchForCar" type="button">
+                    <img src="assets/search.svg" alt="Buscar veiculos">
+                </button>
+
+                <button id="addNewCar" type="button">
+                    <img src="assets/plus.svg" alt="Adicionar novo veiculo">
+                </button>
+            </div>
+    </header>
+    <div id="container">
+        <!-- Car information here -->
+    </div>
+
+    <!-- Modal Add/Edit Car -->
+    <div id="modal-car" class="modal">
+        <div class="modal-content">
+          <span class="close" onclick="modalCar.style.display = 'none'">&times;</span>
+          <div id="title-modal-car">
+              <strong id="modal-car-title">Detalhes do veículo</strong>
+              <hr>
+          </div>
+          <div id="modal-car-content">
+            <form car_id="" id="car-form" onsubmit="handleSubmitCarForm(event, formCar)">
+                <div class="form-label">
+                    <label for="veiculo">Veículo</label>
+                    <input type="text" name="veiculo" id="veiculo">
+                </div>
+                <div id="input-double-row">
+                    <div class="form-label">
+                        <label for="marca">Marca</label>
+                        <input type="text" name="marca" id="marca">
+                    </div>
+                    <div class="form-label">
+                        <label for="marca">Ano</label>
+                        <input type="number" name="ano" id="ano">
+                    </div>
+                </div>
+                <div class="form-label">
+                    <label for="descricao">Descrição</label>
+                    <textarea name="descricao" id="descricao" cols="60" rows="5" form="car-form"></textarea>
+                </div>
+                <div class="form-label">
+                    <label for="vendido">Vendido</label>
+                    <input type="checkbox" name="vendido" id="vendido">
+                </div>
+                <hr>
+                <input id="submitBtn" type="submit" value="Enviar">
+            </form>
+          </div>
+        </div>
+    </div>
+
+    <!-- Modal Search Car -->
+    <div id="modal-search" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="modalSearch.style.display = 'none'">&times;</span>
+            <div id="title-modal-car">
+                <strong>Buscar veículos</strong>
+                <hr>
+            </div>
+            <div id="modal-search-content">
+                <form car_id="" id="search-form" onsubmit="handleSubmitSearchForm(event,formSearch)">
+                    <div class="form-label">
+                        <label for="veiculo">Veículo</label>
+                        <input type="text" name="veiculo" id="veiculo">
+                    </div>
+                    <div id="input-double-row">
+                        <div class="form-label">
+                            <label for="marca">Marca</label>
+                            <input type="text" name="marca" id="marca">
+                        </div>
+                        <div class="form-label">
+                            <label for="marca">Ano</label>
+                            <input type="number" name="ano" id="ano">
+                        </div>
+                    </div>
+                    <div class="form-label">
+                        <label for="vendido">Veículo vendido:</label>
+                        <input type="radio" id="vendido_true" name="vendido">Sim</input>
+                        <input type="radio" id="vendido_false" name="vendido">Não</input>
+                    </div>
+                    <hr>
+                    <input id="submitBtn" type="submit" value="Pesquisar">
+                </form>
+              </div>
+        </div>
+    </div>
+</body>
+<script src="scripts/index.js"></script>
+<script>
+    const api = "http://localhost:8001/car";
+
+    /**
+     * Buttons
+     */
+    const addNewCarBtn = document.getElementById('addNewCar');
+    const searchForCarBtn = document.getElementById('searchForCar');
+    const editCarBtn = document.getElementsByClassName('editCar');
+
+    /**
+     * Forms
+     */ 
+    const formCar = document.getElementById('car-form');
+    const formSearch = document.getElementById('search-form');
+
+    /**
+     * Modals 
+     */
+    const modalCar = document.getElementById('modal-car');
+    const modalSearch = document.getElementById('modal-search');
+
+    // Make first get
+    fetch(api).then(response => {
+        response.json().then(data => {
+            createCardCarInfo(data);
+        });
+    });
+
+    addNewCarBtn.onclick = () => {
+        modalCar.style.display = "block"
+        formCar.reset();
+        formCar.setAttribute('car_id', '');
+        document.getElementById('modal-car-title').textContent = "Adicionar veículo";
+    };
+
+    searchForCarBtn.onclick = () => {
+        modalSearch.style.display = "block";
+        formSearch.reset();
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modalCar) {
+            modalCar.style.display = "none";
+            formCar.reset();
+            formCar.setAttribute('car_id', ''); 
+        }
+
+        if (event.target == modalSearch) {
+            modalSearch.style.display = "none";
+            formSearch.reset();
+        }
+}
+</script>
+</html>

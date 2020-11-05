@@ -1,0 +1,164 @@
+body, * {
+    margin: 0;
+}
+
+header {
+    background-color: #0087ef;
+    padding: 16px 60px;
+}
+
+header  {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header  .header_buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header  .header_buttons button:first-child {
+    margin-right: 10px;
+}
+
+header  .header_buttons button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: black;
+
+    border-radius: 12px;
+    border: none;
+    outline:none;
+    width: 70px;
+    height: 55px;
+
+    transition: background-color 0.4s;
+}
+
+header  .header_buttons button:hover {
+    cursor: pointer;
+    background-color: #464A4B;
+}
+
+header  .header_buttons button img {
+    width: 35px;
+}
+
+header  .header_title {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-size: 35px;
+}
+
+header  .header_title .header_icon {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header  .header_title .header_icon img {
+    margin-left: 10px;
+    width: 45px;
+}
+
+
+#container {
+   display: flex;
+   flex-wrap: wrap;
+   margin: 35px 55px;
+   margin-left: 210px;
+   margin-right: 50px;
+   align-items: center;
+}
+
+#container .container-no_content{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: column;
+
+   width: 100%;
+   height: 100%;
+   margin-top: 120px;
+   margin-right: 150px;
+
+
+   font-family: 'Roboto';
+   line-height: 2;
+}
+
+#container .container-no_content strong {
+    font-size: 30px;
+}
+
+#container .container-no_content p {
+    font-size: 25px;
+    font-weight: 100;
+}
+
+#container .card-car {
+    /* display: flex; */
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    margin: 10px;
+
+    width: 265px;
+    height: 300px;
+
+    border: 7px solid #5B5555;
+    border-radius: 7px;
+    background-color: #FFFFFF;
+
+}
+
+#container .card-car .card-car-title{
+    display: inline;
+}
+
+
+
+/* Modal Add/Edit car */
+.modal {
+    display: none;
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 200px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+  
+  .close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
