@@ -6,29 +6,50 @@ const createCardCarHtml = ({ id, veiculo, marca, ano, vendido, descricao }) => {
     // Title
     html += `
         <div class="card-car-title">
-            <h1 id="card-car-marca-${id}">${marca}</h1>
-            <hr>
+            <span id="card-car-marca-${id}">${veiculo}</span>
+            <hr class="line-card">
         </div>
     `;
 
     // Content
     html += `
         <div class="card-car-content">
-            <span id="card-car-veiculo-${id}">${veiculo}</span>
-            <p id="card-car-ano-${id}">${ano}</p>
-            <p id="card-car-descricao-${id}">${descricao}</p>
-            <div class="card-car-selled">
-                <span>Vendido: </span>
-                <input id="card-car-vendido-${id}" type="checkbox">
+            <div class="card-car-content-group">
+                <div class="card-car-content-info">
+                    <p>Marca</p>
+                    <span id="card-car-veiculo-${id}">${marca}</span>
+                </div>
+                <div class="card-car-content-info">
+                    <p>Ano</p>
+                    <span id="card-car-ano-${id}">${ano}</span>
+                </div>
+            </div>
+            <div class="card-car-content-description">
+                <p>Descrição</p>
+                <textarea readonly cols="29" rows="9" id="card-car-descricao-${id}">${descricao}</textarea>
+            </div>
+    `;
+
+    // Sold or not
+    html += `
+            <div class="card-car-content-seller">
+                <p>Vendido</p>
+                ${vendido === '1' ? 
+                    `<img src="assets/check-circle.svg" alt="vendido">` : 
+                    `<img src="assets/x-circle.svg" alt="à venda">`}
             </div>
         </div>
-    `;
+        `
 
     // Button
     html += `
         <div class="card-car-buttons">
-            <button class="editCar" type="button" onclick="openEditCarModal(${id})">Editar</button>
-            <button class="deleteCar" type="button" onclick="deleteCar(${id})">Lixeira</button>
+            <button class="deleteCar" type="button" onclick="deleteCar(${id})">
+                <img src="assets/trash-2.svg" alt="deletar">
+            </button>
+            <button class="editCar" type="button" onclick="openEditCarModal(${id})">
+                <img src="assets/edit.svg" alt="editar">
+            </button>
         </div>
     </div>`;
 
@@ -51,7 +72,7 @@ function createCardCarInfo(data) {
         html_cars = `
             <div class="container-no_content">
                 <strong>Sem veículos registrados</strong>
-                <p>adicione algum veículo clicando botão acima</p>
+                <p>adicione algum veículo clicando no botão acima</p>
             </div>
         `;
     } else {

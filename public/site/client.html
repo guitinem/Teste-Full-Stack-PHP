@@ -12,8 +12,7 @@
             <div class="header_title">
                 <span>Tabela de</span>
                 <div class="header_icon"> 
-                    <span>Veiculos</span>
-                    <img src="assets/car (1).svg" alt="truck">
+                    <span>Veículos</span>
                 </div>
             </div>
             <div class="header_buttons">
@@ -33,14 +32,16 @@
     <!-- Modal Add/Edit Car -->
     <div id="modal-car" class="modal">
         <div class="modal-content">
-          <span class="close" onclick="modalCar.style.display = 'none'">&times;</span>
-          <div id="title-modal-car">
-              <strong id="modal-car-title">Detalhes do veículo</strong>
-              <hr>
-          </div>
+            <div class="modal-header">
+                <div class="title-modal">
+                    <span id="modal-car-title">Detalhes do veículo</span>
+                    <hr>
+                </div>
+                <span class="close" onclick="modalCar.style.display = 'none'">&times;</span>
+            </div>
           <div id="modal-car-content">
             <form car_id="" id="car-form" onsubmit="handleSubmitCarForm(event, formCar)">
-                <div class="form-label">
+                <div id="form-car-veiculo" class="form-label">
                     <label for="veiculo">Veículo</label>
                     <input type="text" name="veiculo" id="veiculo">
                 </div>
@@ -54,16 +55,18 @@
                         <input type="number" name="ano" id="ano">
                     </div>
                 </div>
-                <div class="form-label">
+                <div class="form-car-description">
                     <label for="descricao">Descrição</label>
                     <textarea name="descricao" id="descricao" cols="60" rows="5" form="car-form"></textarea>
                 </div>
-                <div class="form-label">
-                    <label for="vendido">Vendido</label>
+                <div class="form-label-sold">
                     <input type="checkbox" name="vendido" id="vendido">
+                    <label for="vendido">Vendido</label>
                 </div>
                 <hr>
-                <input id="submitBtn" type="submit" value="Enviar">
+                <div class="form-button">
+                    <input id="submitCarBtn" type="submit" value="Enviar">
+                </div>
             </form>
           </div>
         </div>
@@ -72,14 +75,16 @@
     <!-- Modal Search Car -->
     <div id="modal-search" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="modalSearch.style.display = 'none'">&times;</span>
-            <div id="title-modal-car">
-                <strong>Buscar veículos</strong>
-                <hr>
+            <div class="modal-header">
+                <div class="title-modal">
+                    <span>Buscar veículos</span>
+                    <hr>
+                </div>
+                <span class="close" onclick="modalSearch.style.display = 'none'">&times;</span>
             </div>
             <div id="modal-search-content">
-                <form car_id="" id="search-form" onsubmit="handleSubmitSearchForm(event,formSearch)">
-                    <div class="form-label">
+                <form id="search-form" onsubmit="handleSubmitSearchForm(event,formSearch)">
+                    <div id="form-search-veiculo" class="form-label">
                         <label for="veiculo">Veículo</label>
                         <input type="text" name="veiculo" id="veiculo">
                     </div>
@@ -95,11 +100,15 @@
                     </div>
                     <div class="form-label">
                         <label for="vendido">Veículo vendido:</label>
-                        <input type="radio" id="vendido_true" name="vendido">Sim</input>
-                        <input type="radio" id="vendido_false" name="vendido">Não</input>
+                        <div class="form-search-radio">
+                            <input type="radio" id="vendido_true" name="vendido">Sim</input>
+                            <input type="radio" id="vendido_false" name="vendido">Não</input>
+                        </div>
                     </div>
-                    <hr>
-                    <input id="submitBtn" type="submit" value="Pesquisar">
+                    <div class="form-button">
+                        <hr>
+                        <input id="submitSearchBtn" type="submit" value="Pesquisar">
+                    </div>
                 </form>
               </div>
         </div>
