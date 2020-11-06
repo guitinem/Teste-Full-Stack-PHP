@@ -6,7 +6,7 @@ const createCardCarHtml = ({ id, veiculo, marca, ano, vendido, descricao }) => {
     // Title
     html += `
         <div class="card-car-title">
-            <span id="card-car-marca-${id}">${veiculo}</span>
+            <span id="card-car-veiculo-${id}">${veiculo}</span>
             <hr class="line-card">
         </div>
     `;
@@ -17,7 +17,7 @@ const createCardCarHtml = ({ id, veiculo, marca, ano, vendido, descricao }) => {
             <div class="card-car-content-group">
                 <div class="card-car-content-info">
                     <p>Marca</p>
-                    <span id="card-car-veiculo-${id}">${marca}</span>
+                    <span id="card-car-marca-${id}">${marca}</span>
                 </div>
                 <div class="card-car-content-info">
                     <p>Ano</p>
