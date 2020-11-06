@@ -398,3 +398,18 @@ hr.line-card{
 #vendido_false {
     margin-left: 10px;
 }
+
+
+#submitSearchBtn {
+    border-radius: 5px;
+    border: none;
+    width: 90px;
+    height:25px;
+    cursor: pointer;
+    transition: background-color 0.50s;
+    outline: none;
+}
+
+#submitSearchBtn:hover {
+    background-color: #3F8ACC;
+}

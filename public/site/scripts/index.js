@@ -35,8 +35,8 @@ const createCardCarHtml = ({ id, veiculo, marca, ano, vendido, descricao }) => {
             <div class="card-car-content-seller">
                 <p>Vendido</p>
                 ${vendido === '1' ? 
-                    `<img src="assets/check-circle.svg" alt="vendido">` : 
-                    `<img src="assets/x-circle.svg" alt="à venda">`}
+                    `<img id="card-car-vendido-${id}" src="assets/check-circle.svg" alt="vendido">` : 
+                    `<img id="card-car-vendido-${id}" src="assets/x-circle.svg" alt="à venda">`}
             </div>
         </div>
         `
@@ -250,6 +250,9 @@ function editCar(body, id) {
             formCarFields.map(field => {
                 document.getElementById(`card-car-${field}-${id}`).textContent = result[field];
             });
+
+            document.getElementById(`card-car-vendido-${id}`).src = result['vendido'] === '1' 
+                ? 'assets/check-circle.svg' : 'assets/x-circle.svg'
 
             modalCar.style.display = "none";
             alert('Veículo alterado com sucesso');
