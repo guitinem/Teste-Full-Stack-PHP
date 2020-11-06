@@ -224,7 +224,7 @@ function createCar(body) {
 
             form.innerHTML = form.innerHTML + htmlNewCar;
 
-            alert('Veículo cadastrado');
+            Swal.fire('Veículo cadastrado');
 
             modalCar.style.display = "none";
             formCar.reset();
@@ -255,7 +255,7 @@ function editCar(body, id) {
                 ? 'assets/check-circle.svg' : 'assets/x-circle.svg'
 
             modalCar.style.display = "none";
-            alert('Veículo alterado com sucesso');
+            Swal.fire('Veículo alterado com sucesso');
             formCar.reset();
         })
     });   
@@ -266,15 +266,29 @@ function editCar(body, id) {
  * Delete the selected car
  */
 function deleteCar(id) {
-   if (!confirm('Deseja deletar o registro deste veículo?')) {
-       return;
-   }
+   Swal.fire({
+    title: 'Deletar veículo',
+    text: "Tem certeza que deseja deletar este veículo?",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3F8ACC',
+    cancelButtonColor: '#FA8072',
+    confirmButtonText: 'Sim, deletar veículo.',
+    cancelButtonText: 'Não, cancelar.'
+  }).then((result) => {
+    if (result.isConfirmed) {
 
-   fetch(api + `/${id}`, {
-       method: 'DELETE',
-       mode: "same-origin"
-   }).then(() => {
-       document.getElementById(`card-car-${id}`).remove();
-       alert('Registro de veículo removido com sucesso!')
-   });
+        fetch(api + `/${id}`, {
+            method: 'DELETE',
+            mode: "same-origin"
+        }).then(() => {
+            document.getElementById(`card-car-${id}`).remove();
+            Swal.fire({
+                    title: 'Registro de veículo removido com sucesso!',
+                    icon: 'success',
+                }
+            )
+        });
+    }
+  });
 }

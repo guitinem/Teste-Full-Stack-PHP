@@ -72,8 +72,8 @@ header  .header_title .header_icon img {
    display: flex;
    flex-wrap: wrap;
    margin: 35px;
-   align-items: center;
-   justify-content: space-between;
+   margin-left: 60px;
+   justify-content: right;
 }
 
 #container .container-no_content{
@@ -413,3 +413,10 @@ hr.line-card{
 #submitSearchBtn:hover {
     background-color: #3F8ACC;
 }
+
+.swal2-cancel ,
+.swal2-confirm ,
+.swal2-html-container , 
+.swal2-title {
+    font-family: 'Roboto';
+  }
